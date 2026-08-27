@@ -18,3 +18,13 @@ RewardKey = tt.Tuple[State, Action, State]
 TransitionKey = tt.Tuple[State, Action]
 
 
+class Agent():
+    def __init__(self):
+        # creating the environment
+        self.env = gym.make(ENV_NAME)
+        # getting the first observation
+        self.obs, _ = self.env.reset()
+        # The reward table
+        self.reward_table = tt.Dict[RewardKey, float]
+        # The transition table
+        self.transition_table = tt.Dict[TransitionKey, tt.Dict[State, int]]
