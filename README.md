@@ -1,7 +1,8 @@
 # FrozenLake Using Value Iteration
 
 This project solves Gymnasium's `FrozenLake-v1` environment using a simple
-model-based value iteration approach.
+model-based value iteration approach. You can also test the same idea on the
+harder `FrozenLake8x8-v1` environment.
 
 The agent first explores the environment with random actions to estimate:
 
@@ -26,7 +27,7 @@ and evaluates the learned greedy policy.
 
 The main training loop follows these steps:
 
-1. Create an `Agent` for the `FrozenLake-v1` environment.
+1. Create an `Agent` for the selected FrozenLake environment.
 2. Play random steps to fill the reward and transition tables.
 3. Run value iteration across all states.
 4. Evaluate the current greedy policy over several test episodes.
@@ -75,6 +76,19 @@ Solved in 42 iterations :)
 The exact number of iterations can change from run to run because FrozenLake is
 stochastic and the transition table is estimated from sampled experience.
 
+## Using the 8x8 Environment
+
+Gymnasium also provides a harder 8x8 FrozenLake map:
+
+```python
+ENV_NAME = "FrozenLake8x8-v1"
+```
+
+To try it, update the `ENV_NAME` constant used by the training and test
+environments. The 8x8 version has more states and is harder to solve, so it may
+need more random exploration steps, more training iterations, or a lower success
+threshold while experimenting.
+
 ## TensorBoard
 
 Training logs are written to the `runs/` directory. To view them, run:
@@ -120,6 +134,12 @@ The default constants are:
 GAMMA = 0.9
 TEST_EPISODES = 20
 ENV_NAME = "FrozenLake-v1"
+```
+
+For the harder version, use:
+
+```python
+ENV_NAME = "FrozenLake8x8-v1"
 ```
 
 ## License

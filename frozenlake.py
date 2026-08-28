@@ -6,7 +6,7 @@ from torch.utils.tensorboard.writer import SummaryWriter
 
 
 # Our environment's name
-ENV_NAME = "FrozenLake-v1"
+ENV_NAME = "FrozenLake8x8-v1"
 # The discount factor
 GAMMA = 0.9
 # The number of test episodes

@@ -1,13 +1,10 @@
-from frozenlake import Agent
+from frozenlake import Agent, ENV_NAME, TEST_EPISODES
 import numpy as np
 from torch.utils.tensorboard.writer import SummaryWriter
 import gymnasium as gym
 
 
-# Our environment's name
-ENV_NAME = "FrozenLake-v1"
-# The number of test episodes
-TEST_EPISODES = 20
+
 
 # The overall logic of the whole method is simple. I will explain this in the following different steps
 # 1. we will play some random steps(100 in our case) so that we can fill our reward and transition tables with initial values
@@ -22,7 +19,7 @@ class Main():
         # our agent
         agent = Agent()
         # test environment
-        test_env = gym.make("FrozenLake-v1")
+        test_env = gym.make(ENV_NAME)
         # Summary writer for tensorboard for monitoring
         writer = SummaryWriter(comment = "-value-iteration")
 
