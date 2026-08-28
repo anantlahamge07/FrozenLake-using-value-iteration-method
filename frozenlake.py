@@ -62,7 +62,7 @@ class Agent():
         q = 0.0
         for k, v in dict.items():
             # getting the reward
-            reward = self.reward_table[(self.obs, action, k)]
+            reward = self.reward_table[(state, action, k)]
             # value of the destination state
             value = self.value_table[k]
             # Probability of visiting this destination state
@@ -94,8 +94,8 @@ class Agent():
         # getting the observation from our test environment
         state, _  = env.reset()
         while True:
-            # getting the action
-            action = env.action_space.sample()
+            # getting the best action to take from the current state
+            action = self.best_action_to_take(state)
             # getting the next observation, action and some flags from the environment
             next_obs, reward, is_done, is_trunc, _ = env.step(action)
             # updating the reward table
@@ -106,7 +106,7 @@ class Agent():
             total_reward += reward
             # checking whether the episode is done or truncated
             if is_done or is_trunc:
-                state, _ = self.env.reset()
+                state, _ = env.reset()
                 break
             else:
                 # if not done updating the current state
