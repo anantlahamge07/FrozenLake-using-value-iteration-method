@@ -26,12 +26,12 @@ class Main():
         # Summary writer for tensorboard for monitoring
         writer = SummaryWriter(comment = "-value-iteration")
 
-        # total average reward
-        reward = 0.0
         # iteration number
         iter_no = 0
         best_reward = 0.0
         while True:
+            # total average reward
+            reward = 0.0
             # incrementing the iteration counter
             iter_no += 1
             # now first we have to play 100 random steps so that we can fill our reward and transition tables
@@ -46,16 +46,17 @@ class Main():
                 episode_reward = agent.play_episode(test_env)
                 # incrementing the total average reward counter
                 reward += episode_reward
-                reward /= TEST_EPISODES
-                # writing the value to tensorboard
-                writer.add_scalar("average reward", reward, iter_no)
-                if reward > best_reward:
-                    print(f"best reward updated {best_reward} -> {reward}")
-                    best_reward = reward
-                # if the average reward is greater than 0.8 we will stop training
-                if reward > 0.8:
-                    print(f"Solved in {iter_no} iterations :)")
-                    break
+            reward /= TEST_EPISODES
+            # writing the value to tensorboard
+            writer.add_scalar("average reward", reward, iter_no)
+            # print(f"iteration number: {iter_no}")
+            if reward > best_reward:
+                print(f"{iter_no}. best reward updated {best_reward} -> {reward}")
+                best_reward = reward
+            # if the average reward is greater than 0.8 we will stop training
+            if reward > 0.8:
+                print(f"Solved in {iter_no} iterations :)")
+                break
         writer.close()
 
 

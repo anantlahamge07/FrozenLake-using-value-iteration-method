@@ -40,7 +40,7 @@ class Agent():
             # getting the action
             action = self.env.action_space.sample()
             # getting the next observation, action and some flags from the environment
-            next_obs, reward, is_done, is_trunc, _ = self.env.step()
+            next_obs, reward, is_done, is_trunc, _ = self.env.step(action)
             # updating the reward table
             self.reward_table[(self.obs, action, next_obs)] = float(reward)
             # updating the transition table
@@ -57,15 +57,15 @@ class Agent():
         # getting the value dict from our transition table
         dict = self.transition_table[(state, action)]
         # The number of times the given action got executed
-        total = sum(dict.values)
+        total = sum(dict.values())
         # The action value
         q = 0.0
-        for k, v in self.transition_table.items():
+        for k, v in dict.items():
             # getting the reward
             reward = self.reward_table[(self.obs, action, k)]
             # value of the destination state
             value = self.value_table[k]
-            # Probability of visitng this destination state
+            # Probability of visiting this destination state
             p = v/total
             # updating the action value
             q += p * (reward + GAMMA * value)
@@ -97,7 +97,7 @@ class Agent():
             # getting the action
             action = env.action_space.sample()
             # getting the next observation, action and some flags from the environment
-            next_obs, reward, is_done, is_trunc, _ = env.step()
+            next_obs, reward, is_done, is_trunc, _ = env.step(action)
             # updating the reward table
             self.reward_table[(state, action, next_obs)] = float(reward)
             # updating the transition table
@@ -107,6 +107,7 @@ class Agent():
             # checking whether the episode is done or truncated
             if is_done or is_trunc:
                 state, _ = self.env.reset()
+                break
             else:
                 # if not done updating the current state
                 state = next_obs
@@ -118,7 +119,7 @@ class Agent():
     def value_iteration(self):
         for state in range(self.env.observation_space.n):
             # now we just calculate all the action values for all the states reachable from this state
-            action_values = [self.calc_action_value(state, action) for action in self.env.action_space.n]
+            action_values = [self.calc_action_value(state, action) for action in range(self.env.action_space.n)]
             # updating the state value table for the current state with the maximum action value
             self.value_table[state] = max(action_values)
     
